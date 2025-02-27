@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        text-align: center;
+      }
+
+      body {
+        padding: 60px 0;
+      }
+
+      h1 {
+        margin-top: 60px;
+      }
+
+      h2 {
+        font-weight: normal;
+        margin-bottom: 5px;
+      }
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: normal;
+      }
+      .info {
+        text-align: left;
+        font-family: monospace;
+        max-width: 100%;
+        margin-top: 2px;
+      }
+      .hint {
+        position: absolute;
+        pointer-events: none;
+        text-align: right;
+        font-size: 10px;
+        text-shadow: 0 0 1px white;
+        background-color: white;
+      }
+
+      .toHint {
+        text-align: left;
+        transform: rotate(-60deg);
+        transform-origin: 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Transit Fare Art</h1>
+    <h2>find out how much your ride cost the hard way</h2>
+
+    <div
+      style="
+        display: flex;
+        margin-top: 20px;
+        justify-content: center;
+        gap: 50px;
+        flex-wrap: wrap;
+      "
+    >
+      <div style="display: inline-block; flex-grow: 0; width: 500px">
+        <h2 style="text-align: left">BART</h2>
+        <h3 style="text-align: left">San Francisco Bay Area</h3>
+        <canvas id="bart" width="500" height="500"></canvas>
+        <div class="info">Hover over a square</div>
+      </div>
+
+      <div style="display: inline-block; flex-grow: 0; width: 500px">
+        <h2 style="text-align: left">WMATA</h2>
+        <h3 style="text-align: left">Washington, DC</h3>
+        <canvas id="wmata" width="500" height="500"></canvas>
+        <div class="info">Hover over a square</div>
+      </div>
+    </div>
+
+    <script src="main.js" type="module"></script>
+  </body>
+</html>

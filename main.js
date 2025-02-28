@@ -51,6 +51,12 @@ function render(canvas, agency) {
     );
   });
 
+  if (!canHover()) {
+    document.querySelector(`#${canvas.id} + .info`).innerText = canHover()
+      ? "Hover over a square"
+      : "Tap on a square";
+  }
+
   canvas.addEventListener(canHover() ? "mousemove" : "click", (e) => {
     const index = Math.floor(
       clamp(e.offsetX, 0, 499) / squareSize +
@@ -92,8 +98,8 @@ function render(canvas, agency) {
     fromHint.style.display = "none";
     toHint.style.display = "none";
 
-    document.querySelector(
-      `#${canvas.id} + .info`
-    ).innerText = `Hover over a square`;
+    document.querySelector(`#${canvas.id} + .info`).innerText = canHover()
+      ? "Hover over a square"
+      : "Tap on a square";
   });
 }

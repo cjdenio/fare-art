@@ -1,4 +1,12 @@
-import clamp from "https://cdn.jsdelivr.net/npm/lodash@4.17.21/clamp.js/+esm";
+const clamp = (val, l, h) => Math.min(h, Math.max(l, val));
+const canHover = () => window.matchMedia("(hover: hover)").matches;
+
+const tripColor = (trip, agency) =>
+  `hsl(${Math.round(
+    ((clamp(trip.fare, agency.minfare, Infinity) - agency.maxfare) /
+      (agency.minfare - agency.maxfare)) *
+      100
+  )} 70% 60%)`;
 
 render(document.getElementById("bart"), {
   fares: await fetch("agencies/bart.json").then((r) => r.json()),
@@ -33,11 +41,7 @@ function render(canvas, agency) {
   const squareSize = canvas.width / agency.width;
 
   agency.fares.forEach((trip, index) => {
-    ctx.fillStyle = `hsl(${Math.round(
-      ((clamp(trip.fare, agency.minfare, Infinity) - agency.maxfare) /
-        (agency.minfare - agency.maxfare)) *
-        100
-    )} 70% 60%)`;
+    ctx.fillStyle = tripColor(trip, agency);
 
     ctx.fillRect(
       Math.floor((index * squareSize) % canvas.width),
@@ -47,7 +51,7 @@ function render(canvas, agency) {
     );
   });
 
-  canvas.addEventListener("mousemove", (e) => {
+  canvas.addEventListener(canHover() ? "mousemove" : "click", (e) => {
     const index = Math.floor(
       clamp(e.offsetX, 0, 499) / squareSize +
         Math.floor(e.offsetY / squareSize) * agency.width
@@ -62,7 +66,10 @@ function render(canvas, agency) {
     // XSS haven
     document.querySelector(
       `#${canvas.id} + .info`
-    ).innerHTML = `${formattedFare} | <strong>${trip.from}</strong> to ${
+    ).innerHTML = `<div style="display:inline-block;margin-right:5px;width:10px;height:10px;background-color:${tripColor(
+      trip,
+      agency
+    )}"></div>${formattedFare} | <strong>${trip.from}</strong> to ${
       trip.to == trip.from ? "itself" : `<strong>${trip.to}</strong>`
     }`;
 
